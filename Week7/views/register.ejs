@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .error { color: red; font-size: 0.9em; margin-top: 5px; }
+    .form-group { margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+  <h1>User Registration</h1>
+  
+  <% if (typeof error !== 'undefined' && error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+
+  <form id="registerForm" action="/users/register" method="POST">
+    <div class="form-group">
+      <label for="username">Username (Email):</label><br>
+      <input type="text" id="username" name="username" required>
+      <div id="usernameError" class="error"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label><br>
+      <input type="password" id="password" name="password" required>
+      <div id="passwordError" class="error"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="repassword">Re-confirm Password:</label><br>
+      <input type="password" id="repassword" name="repassword" required>
+      <div id="repasswordError" class="error"></div>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    $(document).ready(function() {
+      $('#registerForm').submit(function(e) {
+        let isValid = true;
+        
+        // Reset error messages
+        $('.error').text('');
+
+        const username = $('#username').val();
+        const password = $('#password').val();
+        const repassword = $('#repassword').val();
+
+        // 1. Validate Email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(username)) {
+          $('#usernameError').text('Username must be a valid email format.');
+          isValid = false;
+        }
+
+        // 2. Validate Password Rules
+        // At least 6 chars, 1 number, 1 special char
+        // (?=.*[0-9]) : Có ít nhất 1 số
+        // (?=.*[!@#$%^&*]) : Có ít nhất 1 ký tự đặc biệt
+        // .{6,} : Dài ít nhất 6 ký tự
+        const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,}$/;
+        
+        if (!passwordRegex.test(password)) {
+          $('#passwordError').text('Password must have at least 6 characters, contain 1 number and 1 special character.');
+          isValid = false;
+        }
+
+        // 3. Validate Password Match
+        if (password !== repassword) {
+          $('#repasswordError').text('Passwords do not match.');
+          isValid = false;
+        }
+
+        // Nếu không hợp lệ thì chặn submit form
+        if (!isValid) {
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

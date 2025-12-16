@@ -1,0 +1,125 @@
+/* định dạng font chữ, màu nền, margin, padding, màu chữ cho file html */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.cv-container {
+  max-width: 960px;
+  background-color: #fff;
+  margin: 40px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px 60px;
+  border-top: 6px solid #222;
+}
+
+header {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 32px;
+  margin: 0;
+  color: #111;
+}
+
+header h2 {
+  font-size: 18px;
+  font-weight: 400;
+  color: #666;
+  margin: 6px 0 0 0;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 60% 35%;
+  gap: 5%;
+}
+
+.left h3 {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #777;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.experience-item, .education-item {
+  margin-bottom: 20px;
+}
+
+.experience-item h4, .education-item h4 {
+  font-size: 16px;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.company, .time {
+  font-size: 13px;
+  color: #777;
+  margin: 0;
+}
+
+.right {
+  color: #444;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.contact {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.contact li {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.info-block {
+  margin-bottom: 20px;
+}
+
+.info-block h4 {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+}
+
+.info-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.info-block li {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+/* @media dùng để thay đổi kiểu dáng trang dựa theo truy vấn thông tin của thiết bị */
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  .cv-container {
+    padding: 20px;
+  }
+}

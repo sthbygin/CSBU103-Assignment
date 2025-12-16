@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator 24560032</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .calculator {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+        #display {
+            width: 100%;
+            height: 70px;
+            font-size: 2.5em;
+            text-align: right;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            color: #333;
+            background-color: #fafafa;
+            outline: none; 
+        }
+        
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        
+        button {
+            padding: 15px;
+            font-size: 1.4em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #e0e0e0;
+            transition: 0.1s;
+            color: #333;
+            font-weight: 500;
+            user-select: none;
+        }
+        
+        button:active, .button-pressed {
+            filter: brightness(0.85);
+            transform: scale(0.95);
+        }
+        
+        .btn-number { background-color: #f0f0f0; }
+        .operator { background-color: #ff9f43; color: white; }
+        .operator:hover { background-color: #e67e22; }
+
+        .span-2 { grid-column: span 2; width: 100%; }
+
+        .equal { background-color: #006aff; color: white; }
+        .equal:hover { background-color: #27ae60; }
+        
+        .clear { background-color: #921305; color: white; }
+        .clear:hover { background-color: #c0392b; }
+
+        .btn-percent { background-color: #ff9f43; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" readonly placeholder="0">
+    <div class="buttons">
+        <button class="clear span-2" onclick="clearDisplay()" data-key="Escape">C</button>
+        <button class="btn-percent" onclick="appendToDisplay('%')" data-key="%">%</button>
+        <button class="operator" onclick="appendToDisplay('/')" data-key="/">/</button>
+
+        <button class="btn-number" onclick="appendToDisplay('7')" data-key="7">7</button>
+        <button class="btn-number" onclick="appendToDisplay('8')" data-key="8">8</button>
+        <button class="btn-number" onclick="appendToDisplay('9')" data-key="9">9</button>
+        <button class="operator" onclick="appendToDisplay('*')" data-key="*">*</button>
+
+        <button class="btn-number" onclick="appendToDisplay('4')" data-key="4">4</button>
+        <button class="btn-number" onclick="appendToDisplay('5')" data-key="5">5</button>
+        <button class="btn-number" onclick="appendToDisplay('6')" data-key="6">6</button>
+        <button class="operator" onclick="appendToDisplay('-')" data-key="-">-</button>
+
+        <button class="btn-number" onclick="appendToDisplay('1')" data-key="1">1</button>
+        <button class="btn-number" onclick="appendToDisplay('2')" data-key="2">2</button>
+        <button class="btn-number" onclick="appendToDisplay('3')" data-key="3">3</button>
+        <button class="operator" onclick="appendToDisplay('+')" data-key="+">+</button>
+
+        <button class="btn-number" onclick="appendToDisplay('0')" data-key="0">0</button>
+        <button class="btn-number" onclick="appendToDisplay('.')" data-key=".">.</button>
+        <button class="equal span-2" onclick="calculate()" data-key="Enter">=</button>
+    </div>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+
+    function appendToDisplay(value) {
+        if (display.value === 'Error') display.value = '';
+        display.value += value;
+    }
+
+    function clearDisplay() {
+        display.value = '';
+    }
+
+    function deleteLastChar() {
+        display.value = display.value.toString().slice(0, -1);
+    }
+
+    function calculate() {
+        try {
+            let input = display.value.trim();
+            if(input === "") return;
+
+            let result = eval(input);
+            
+            // Xử lý số thập phân
+            if (!Number.isInteger(result)) {
+                result = parseFloat(result.toFixed(8));
+            }
+            
+            display.value = result;
+        } catch (error) {
+            display.value = 'Error';
+        }
+    }
+
+    // Xử lý bàn phím
+    document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        if (/[0-9]/.test(key) || ['+', '-', '*', '/', '.', '%'].includes(key)) {
+            event.preventDefault(); 
+            appendToDisplay(key);
+            visualizeKeyPress(key);
+        } else if (key === 'Enter' || key === '=') {
+            event.preventDefault();
+            calculate();
+            visualizeKeyPress('Enter');
+        } else if (key === 'Backspace') {
+            deleteLastChar();
+        } else if (key === 'Escape' || key.toLowerCase() === 'c') {
+            clearDisplay();
+            visualizeKeyPress('Escape');
+        }
+    });
+
+    function visualizeKeyPress(key) {
+        let selector = `button[data-key="${key}"]`;
+        if (key === 'Enter') selector = `button[data-key="Enter"]`; 
+        const button = document.querySelector(selector);
+        if (button) {
+            button.classList.add('button-pressed');
+            setTimeout(() => {
+                button.classList.remove('button-pressed');
+            }, 100);
+        }
+    }
+</script>
+
+</body>
+</html>
